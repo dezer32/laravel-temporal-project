@@ -195,6 +195,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Temporal project
+         */
+        Dezer32\TemporalProject\Core\Providers\CoreServiceProvider::class,
     ],
 
     /*
