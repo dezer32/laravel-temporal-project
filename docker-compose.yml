@@ -1,15 +1,18 @@
 version: "3.8"
 
 services:
-  workflow-app:
+  app:
     build:
       context: .
       dockerfile: docker/php/8.1-cli/Dockerfile
     depends_on:
       - temporal
     environment:
+      WORKING_DIR: ${WORKING_DIR}
       TEMPORAL_CLI_ADDRESS: ${TEMPORAL_CLI_ADDRESS}
-    command: [ "/usr/local/bin/rr", "serve", "-c", "/var/app/src/Core/config/.rr.yaml" ]
+    command: [ "/usr/local/bin/rr", "serve", "-c", "${WORKING_DIR}/src/Core/config/.rr.yaml" ]
+    ports:
+      - "8000:8000"
     volumes:
       - ./:/var/app
 
