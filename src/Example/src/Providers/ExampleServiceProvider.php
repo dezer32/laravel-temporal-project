@@ -16,6 +16,7 @@ class ExampleServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(ExampleTemporalServiceProvider::class);
+        $this->app->register(ExampleRouteServiceProvider::class);
 
         $this->registerCommands();
     }
