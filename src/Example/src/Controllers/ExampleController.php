@@ -26,6 +26,8 @@ class ExampleController extends Controller
         return new JsonResponse([
             'workflow' => [
                 'id' => $run->getExecution()->getID(),
+                // waits for workflow to complete
+                'result' => $run->getResult(),
             ],
         ]);
     }
