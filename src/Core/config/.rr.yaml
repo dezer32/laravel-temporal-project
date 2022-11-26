@@ -4,7 +4,8 @@ rpc:
   listen: "tcp://127.0.0.1:6001"
 
 server:
-  command: "php ${WORKING_DIR}/src/Core/worker.php"
+  command: php ${WORKING_DIR}/artisan temporal-project:server:init
+#  command: "php ${WORKING_DIR}/src/Core/worker.php"
 
 http:
   address: 0.0.0.0:8000
@@ -14,7 +15,7 @@ http:
 temporal:
   address: ${TEMPORAL_CLI_ADDRESS}
   activities:
-    command: "php ${WORKING_DIR}/artisan workflow:init"
+    command: "php ${WORKING_DIR}/artisan temporal-project:workflow:init"
     num_workers: 4
 
 logs:

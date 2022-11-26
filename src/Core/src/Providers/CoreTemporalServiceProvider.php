@@ -9,6 +9,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Temporal\Client\GRPC\ServiceClient;
+use Temporal\Client\GRPC\ServiceClientInterface;
 use Temporal\Client\WorkflowClient;
 use Temporal\Client\WorkflowClientInterface;
 use Temporal\Worker\WorkerFactoryInterface;
@@ -17,6 +18,10 @@ use Temporal\WorkerFactory;
 
 class CoreTemporalServiceProvider extends ServiceProvider
 {
+    private array $commands = [
+        WorkflowInitCommand::class,
+    ];
+
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/workflow.php', 'workflow');
@@ -30,13 +35,23 @@ class CoreTemporalServiceProvider extends ServiceProvider
             return $app->get(WorkerFactoryInterface::class)->newWorker();
         });
 
-        $this->app->singleton(
-            WorkflowClientInterface::class,
-            static fn() => WorkflowClient::create(ServiceClient::create((string) Config::get('workflow.address')))
+        $this->app->bind(
+            ServiceClientInterface::class,
+            static fn(): ServiceClientInterface => ServiceClient::create((string) Config::get('workflow.address'))
         );
 
+        $this->app->singleton(
+            WorkflowClientInterface::class,
+            static fn(Application $app) => WorkflowClient::create($app->get(ServiceClientInterface::class))
+        );
+
+        $this->registerCommands();
+    }
+
+    private function registerCommands(): void
+    {
         if ($this->app->runningInConsole()) {
-            $this->commands(WorkflowInitCommand::class);
+            $this->commands($this->commands);
         }
     }
 }

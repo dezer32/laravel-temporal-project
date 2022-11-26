@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 class CoreServiceProvider extends ServiceProvider
 {
     private array $providers = [
+        CoreRoadRunnerServiceProvider::class,
         CoreTemporalServiceProvider::class,
         ExampleServiceProvider::class,
     ];

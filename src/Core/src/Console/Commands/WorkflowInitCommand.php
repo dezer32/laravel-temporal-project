@@ -9,7 +9,7 @@ use Temporal\Worker\WorkerFactoryInterface;
 
 class WorkflowInitCommand extends Command
 {
-    protected static $defaultName = 'workflow:init';
+    protected static $defaultName = 'temporal-project:workflow:init';
     protected static $defaultDescription = 'Command of init workflows';
 
     public function handle(WorkerFactoryInterface $factory): void
