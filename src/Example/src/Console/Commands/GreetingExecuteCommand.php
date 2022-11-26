@@ -12,7 +12,7 @@ use Temporal\Client\WorkflowOptions;
 
 class GreetingExecuteCommand extends Command
 {
-    protected $signature = 'example:simple-activity';
+    protected $signature = 'temporal-project:example:simple-activity';
     protected $description = 'Execute Dezer32\TemporalProject\Example\GreetingWorkflow';
 
     public function handle(WorkflowClientInterface $workflowClient): int
