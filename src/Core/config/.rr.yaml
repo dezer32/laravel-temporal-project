@@ -5,7 +5,6 @@ rpc:
 
 server:
   command: php ${WORKING_DIR}/artisan temporal-project:server:init
-#  command: "php ${WORKING_DIR}/src/Core/worker.php"
 
 http:
   address: 0.0.0.0:8000
