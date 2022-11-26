@@ -14,14 +14,21 @@ use Temporal\Client\WorkflowOptions;
 
 class ExampleController extends Controller
 {
-    public function simpleActivity(Request $request, WorkflowClientInterface $workflowClient): JsonResponse
+    private WorkflowClientInterface $workflowClient;
+
+    public function __construct(WorkflowClientInterface $workflowClient)
     {
-        $workflow = $workflowClient->newWorkflowStub(
+        $this->workflowClient = $workflowClient;
+    }
+
+    public function simpleActivity(Request $request): JsonResponse
+    {
+        $workflow = $this->workflowClient->newWorkflowStub(
             GreetingWorkflowInterface::class,
             WorkflowOptions::new()->withWorkflowExecutionTimeout(CarbonInterval::minute())
         );
 
-        $run = $workflowClient->start($workflow, 'Dezer32');
+        $run = $this->workflowClient->start($workflow, $request->get('name', 'Dezer32'));
 
         return new JsonResponse([
             'workflow' => [
